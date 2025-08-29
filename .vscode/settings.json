@@ -16,7 +16,6 @@
         "python/Cargo.toml",
         "node/rust-client/Cargo.toml",
         "logger_core/Cargo.toml",
-        "csharp/rust/Cargo.toml",
         "glide-core/redis-rs/Cargo.toml",
         "benchmarks/rust/Cargo.toml",
         "java/Cargo.toml",
@@ -64,12 +63,10 @@
     "rust-analyzer.cargo.features": "all",
     "rust-analyzer.procMacro.enable": true,
     "rust-analyzer.cargo.buildScripts.enable": true,
-    "dotnet.defaultSolution": "csharp/csharp.sln",
     "java.compile.nullAnalysis.mode": "automatic",
     "java.configuration.updateBuildConfiguration": "interactive",
     "files.associations": {
         "**/frontmatter.json": "jsonc",
-        "**/.frontmatter/config/*.json": "jsonc",
-        "iosfwd": "cpp"
+        "**/.frontmatter/config/*.json": "jsonc"
     }
 }

@@ -86,6 +86,9 @@ public class TestUtilities {
                                     .addresses(seedNodes)
                                     .requestTimeout(2000)
                                     .lazyConnect(lazyConnect)
+                                    // Explicitly set no credentials for dedicated clusters to avoid
+                                    // authentication issues from environment or global state
+                                    .credentials(null)
                                     .build())
                     .get();
         } else {
@@ -97,6 +100,9 @@ public class TestUtilities {
                                     .addresses(nodeAddresses)
                                     .requestTimeout(2000)
                                     .lazyConnect(lazyConnect)
+                                    // Explicitly set no credentials for dedicated clusters to avoid
+                                    // authentication issues from environment or global state
+                                    .credentials(null)
                                     .build())
                     .get();
         }
@@ -278,7 +284,7 @@ public class TestUtilities {
         assertTrue(hasLib);
     }
 
-    private <T> void assertSetsEqual(Set<T> expected, Set<T> actual) {
+    private static <T> void assertSetsEqual(Set<T> expected, Set<T> actual) {
         // Convert both sets to lists. It is needed due to issue that rust return the flags as string
         List<GlideString> expectedList =
                 expected.stream().sorted().map(GlideString::of).collect(Collectors.toList());
