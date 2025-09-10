@@ -255,7 +255,7 @@ jobs:
                 host: ${{ fromJson(needs.load-platform-matrix.outputs.PLATFORM_MATRIX) }}
         # Alpine fails with 'Error: JavaScript Actions in Alpine containers are only supported on x64 Linux runners. Detected Linux Arm64'
         # Disable for now
-        if: ${{ matrix.host.TARGET != 'aarch64-unknown-linux-musl' }} 
+        # if: ${{ matrix.host.TARGET != 'aarch64-unknown-linux-musl' }} 
         runs-on: ${{ matrix.host.test-runner || matrix.host.runner }}
         container:
             image: ${{ matrix.host.IMAGE || ''}}
