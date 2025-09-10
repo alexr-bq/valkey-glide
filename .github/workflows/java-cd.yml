@@ -284,6 +284,7 @@ jobs:
 
             - name: Set up JDK
               uses: actions/setup-java@v4
+              if: ${{ !contains(matrix.host.TARGET, 'musl') }}
               with:
                   distribution: "temurin"
                   java-version: ${{ env.JAVA_VERSION }}
