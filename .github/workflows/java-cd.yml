@@ -253,9 +253,6 @@ jobs:
             fail-fast: false
             matrix:
                 host: ${{ fromJson(needs.load-platform-matrix.outputs.PLATFORM_MATRIX) }}
-        # Alpine fails with 'Error: JavaScript Actions in Alpine containers are only supported on x64 Linux runners. Detected Linux Arm64'
-        # Disable for now
-        # if: ${{ matrix.host.TARGET != 'aarch64-unknown-linux-musl' }} 
         runs-on: ${{ matrix.host.test-runner || matrix.host.runner }}
         container:
             image: ${{ matrix.host.IMAGE || ''}}
@@ -265,8 +262,25 @@ jobs:
               if: ${{matrix.host.TARGET == 'aarch64-unknown-linux-gnu' }}
               run: sudo chown -R $USER:$USER /home/ubuntu/action-runner-ilia/_work/valkey-glide
 
-            - name: Checkout
+            - name: Checkout (via action)
+              if: ${{ !(matrix.TARGET == 'aarch64-unknown-linux-musl') }}
               uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Checkout-action manually repository for musl on ARM64
+              if: ${{ matrix.TARGET == 'aarch64-unknown-linux-musl' }}
+              shell: bash
+              run: |
+                  # First, clone the repository
+                  git clone https://github.com/${{ github.repository }} $GITHUB_WORKSPACE
+                  cd $GITHUB_WORKSPACE
+                  # Now we can run further git commands
+                  git config --global --add safe.directory $GITHUB_WORKSPACE
+                  git fetch origin ${{ github.sha }}
+                  git checkout ${{ github.sha }}
+                  git clean -xdf
+                  git reset --hard
 
             - name: Set up JDK
               uses: actions/setup-java@v4
