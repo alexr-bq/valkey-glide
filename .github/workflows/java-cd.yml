@@ -245,6 +245,9 @@ jobs:
                 load-platform-matrix,
                 #publish-to-maven-central-deployment,
             ]
+        # Alpine fails with 'Error: JavaScript Actions in Alpine containers are only supported on x64 Linux runners. Detected Linux Arm64'
+        # Disable for now
+        if: ${{ matrix.host.TARGET != 'aarch64-unknown-linux-musl' }} 
         env:
             JAVA_VERSION: "11"
             RELEASE_VERSION: ${{ needs.set-release-version.outputs.RELEASE_VERSION }}
